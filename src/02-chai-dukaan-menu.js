@@ -29,4 +29,15 @@
  */
 export function formatChaiMenu(items) {
   // Your code here
+
+  if(!Array.isArray(items)) return "";
+
+  let menuItem=items.filter(i=>i.name!=="").filter(i=>i.price>0).map(i=>`${i.name.toUpperCase()} - Rs.${i.price}`).join(" | ")
+console.log(menuItem)
+  return `${menuItem}`
+
+
+
 }
+
+formatChaiMenu([{ name: "masala chai", price: 15 }, { name: "samosa", price: 12 }])
