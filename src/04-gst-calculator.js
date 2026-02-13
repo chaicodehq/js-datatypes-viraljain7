@@ -33,11 +33,31 @@
  *
  * @example
  *   calculateGST(1000, "electronics")
- *   // => { baseAmount: 1000, gstRate: 18, gstAmount: 180, totalAmount: 1180 }
- *
  *   calculateGST(500, "essential")
+ *   // => { baseAmount: 1000, gstRate: 18, gstAmount: 180, totalAmount: 1180 }
  *   // => { baseAmount: 500, gstRate: 0, gstAmount: 0, totalAmount: 500 }
  */
 export function calculateGST(amount, category) {
   // Your code here
+
+  if (!Number.isFinite(amount) || amount <= 0) return null;
+  if (typeof category !== "string") return null;
+  category = category.toLowerCase();
+
+  let gstCatPair =  {
+  essential: 0,
+  food: 5,
+  standard: 12,
+  electronics: 18,
+  luxury: 28,
+};
+
+
+
+  if (gstCatPair[category] === undefined) return null;
+  let gstRate = gstCatPair[category];
+  let baseAmount = amount;
+  let gstAmount = Number(((baseAmount * gstRate) / 100).toFixed(2));
+  let totalAmount = Number((baseAmount + gstAmount).toFixed(2));
+  return { baseAmount, gstRate, gstAmount, totalAmount };
 }
