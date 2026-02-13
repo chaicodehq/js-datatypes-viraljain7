@@ -1,3 +1,4 @@
+
 /**
  * 💬 WhatsApp Message Parser
  *
@@ -41,53 +42,46 @@
 export function parseWhatsAppMessage(message) {
   // Your code here
 
-  if (typeof message !== "string") return null;
-  if (!message.includes(" - ") || !message.includes(": ")) return null;
-  message = message.toLocaleLowerCase();
+  if(typeof message!=="string")return null;
+  if(!message.includes(" - ")||!message.includes(": "))return null;
+  message=message.toLocaleLowerCase();
+  
 
-  let date = message.split(",")[0];
+  let date=message.split(",")[0];
   // console.log(date)
-
-  let time = message.split(" -")[0].split(", ")[1];
+  
+  
+  let time=message.split(" -")[0].split(", ")[1];
   // console.log(time)
+  
+  
+  let sender=message.split(" - ")[1].split(": ")[0];
+  sender= capitalizeEachWord(sender);
 
-  let sender = message.split(" - ")[1].split(": ")[0];
-  sender = capitalizeEachWord(sender);
+  let senderMessage=message.split(" - ")[1].split(": ")[1];
+  senderMessage=capitalize(senderMessage)
 
-  let senderMessage = message.split(" - ")[1].split(": ")[1];
-  senderMessage = capitalize(senderMessage);
+  let wordCount=senderMessage.split(" ").length
 
-  let wordCount = senderMessage.split(" ").length;
+let sentiment;
+const lowerText = senderMessage.toLowerCase();
 
-  let sentiment;
-  const lowerText = senderMessage.toLowerCase();
-
-  if (
-    lowerText.includes("😂") ||
-    lowerText.includes(":)") ||
-    lowerText.includes("haha")
-  ) {
-    sentiment = "funny";
-  } else if (
-    lowerText.includes("love") ||
-    lowerText.includes("❤") ||
-    lowerText.includes("pyaar")
-  ) {
-    sentiment = "love";
-  } else {
-    sentiment = "neutral";
-  }
-
-
-  return {
-    date,
-    time,
-    sender,
-    text: senderMessage,
-    wordCount ,
-    sentiment
-  };
+if (lowerText.includes("😂") || lowerText.includes(":)") || lowerText.includes("haha")) {
+  sentiment = "funny";
+} else if (lowerText.includes("love") || lowerText.includes("❤") || lowerText.includes("pyaar")) {
+  sentiment = "love";
+} else {
+  sentiment = "neutral";
 }
+
+
+  // console.log(reply)
+  // console.log([message,date,time,sender, senderMessage,wordCount,sentiment])
+
+  return { date, time, sender, text: senderMessage, wordCount: wordCount, sentiment: sentiment }
+
+}
+
 
 function capitalizeEachWord(sentence) {
   const words = sentence.split(" ");
@@ -100,5 +94,5 @@ function capitalizeEachWord(sentence) {
 }
 
 function capitalize(word) {
-  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-}
+  return  word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}  

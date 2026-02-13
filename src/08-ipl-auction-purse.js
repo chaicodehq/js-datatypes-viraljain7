@@ -45,4 +45,70 @@
  */
 export function iplAuctionSummary(team, players) {
   // Your code here
+
+  // * Validation:
+  //  *   - Agar team object nahi hai ya team.purse positive number nahi hai, return null
+  //  *   - Agar players array nahi hai ya empty hai, return null
+  //
+
+  if (typeof team !== "object" || team === null) return null;
+  if (!team.purse || team.purse < 0) return null;
+
+  if (!Array.isArray(players) || players.length === 0) return null;
+
+  // * Rules:
+  //  *   - team object: { name: "CSK", purse: 9000 } (purse in lakhs)
+  //  *   - players array: [{ name: "Dhoni", role: "wk", price: 1200 }, ...]
+  //  *   - role can be: "bat", "bowl", "ar" (all-rounder), "wk" (wicketkeeper)
+  //  *   - Calculate:
+  //  *     - totalSpent: sum of all player prices (use reduce)
+  //  *     - remaining: purse - totalSpent
+  //  *     - playerCount: total players bought
+  //  *     - costliestPlayer: player object with highest price
+  //  *     - cheapestPlayer: player object with lowest price
+  //  *     - averagePrice: Math.round(totalSpent / playerCount)
+  //  *     - byRole: object counting players per role using reduce
+  //  *       e.g., { bat: 3, bowl: 4, ar: 2, wk: 1 }
+  //  *     - isOverBudget: boolean, true agar totalSpent > purse
+  //  *   - Hint: Use reduce(), filter(), sort(), find(), every(), some(),
+  //  *     Array.isArray(), Math.round(), spread operator
+
+  //  *     { name: "CSK", purse: 9000 },
+  //  *     [{ name: "Dhoni", role: "wk", price: 1200 },
+  //         { name: "Jadeja", role: "ar", price: 1600 }]
+  //  *
+  let teamName = team.name;
+
+  let totalSpent = players.reduce((ac, el) => el.price + ac, 0);
+  let remaining = team.purse - totalSpent;
+  let playerCount = players.length;
+
+  let averagePrice = Math.round(totalSpent / playerCount);
+
+
+  let costliestPlayer = players.sort((a, b) => b.price - a.price)[0];
+  let cheapestPlayer =  players.sort((a, b) => a.price - b.price)[0];
+
+
+
+  let byRole = players.reduce((acc, player) =>   {
+      acc[player.role] = (acc[player.role] || 0) + 1;
+      return acc;
+    },  {});
+
+  
+
+  let isOverBudget = remaining < 0;
+
+  return {
+    teamName,
+    totalSpent,
+    remaining,
+    playerCount,
+    costliestPlayer,
+    cheapestPlayer,
+    averagePrice,
+    byRole,
+    isOverBudget,
+  };
 }
