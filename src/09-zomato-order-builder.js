@@ -5,20 +5,20 @@
  * aur addons), ek optional coupon code hai, aur tujhe final bill banana hai
  * with itemwise breakdown, taxes, delivery fee, aur discount.
  *
- * Rules:
- *   - cart is array of items:
- *     [{ name: "Butter Chicken", price: 350, qty: 2, addons: ["Extra Butter:50", "Naan:40"] }, ...]
- *   - Each addon string format: "AddonName:Price" (split by ":" to get price)
- *   - Per item total = (price + sum of addon prices) * qty
- *   - Calculate:
- *     - items: array of { name, qty, basePrice, addonTotal, itemTotal }
- *     - subtotal: sum of all itemTotals
- *     - deliveryFee: Rs 30 if subtotal < 500, Rs 15 if 500-999, FREE (0) if >= 1000
- *     - gst: 5% of subtotal, rounded to 2 decimal places parseFloat(val.toFixed(2))
- *     - discount: based on coupon (see below)
- *     - grandTotal: subtotal + deliveryFee + gst - discount (minimum 0, use Math.max)
- *     - Round grandTotal to 2 decimal places
- *
+//  * Rules:
+//  *   - cart is array of items:
+//  *     [{ name: "Butter Chicken", price: 350, qty: 2, addons: ["Extra Butter:50", "Naan:40"] }, ...]
+//  *   - Each addon string format: "AddonName:Price" (split by ":" to get price)
+//  *   - Per item total = (price + sum of addon prices) * qty
+//  *   - Calculate:
+//  *     - items: array of { name, qty, basePrice, addonTotal, itemTotal }
+//  *     - subtotal: sum of all itemTotals
+//  *     - deliveryFee: Rs 30 if subtotal < 500, Rs 15 if 500-999, FREE (0) if >= 1000
+//  *     - gst: 5% of subtotal, rounded to 2 decimal places parseFloat(val.toFixed(2))
+//  *     - discount: based on coupon (see below)
+//  *     - grandTotal: subtotal + deliveryFee + gst - discount (minimum 0, use Math.max)
+//  *     - Round grandTotal to 2 decimal places
+//  *
  *   Coupon codes (case-insensitive):
  *     - "FIRST50"  => 50% off subtotal, max Rs 150 (use Math.min)
  *     - "FLAT100"  => flat Rs 100 off
@@ -47,4 +47,48 @@
  */
 export function buildZomatoOrder(cart, coupon) {
   // Your code here
+
+  let discount = 0;
+  let deliveryFee;
+  
+  // if (!Array.isArray(cart) || cart.length === 0) return null;
+  // let subtotal=cart.reduce((ac,el)=>
+  
+  // ,0);
+
+  let couponInLowercase=coupon.toLowerCase()
+
+  if (couponInLowercase === "first50") discount = Math.max(subtotal / 2, 150);
+  else if (couponInLowercase === "first100") discount = 100;
+  else if (couponInLowercase === "freeship") deliveryFee = 0;
+
+  let items = cart;
+  let gst;
+  let grandTotal;
+
+
+//  * Rules:
+//  *   - cart is array of items:
+//  *     [{ name: "Butter Chicken", price: 350, qty: 2, addons: ["Extra Butter:50", "Naan:40"] }, ...]
+//  *   - Each addon string format: "AddonName:Price" (split by ":" to get price)
+//  *   - Per item total = (price + sum of addon prices) * qty
+//  *   - Calculate:
+//  *     - items: array of { name, qty, basePrice, addonTotal, itemTotal }
+//  *     - subtotal: sum of all itemTotals
+//  *     - deliveryFee: Rs 30 if subtotal < 500, Rs 15 if 500-999, FREE (0) if >= 1000
+//  *     - gst: 5% of subtotal, rounded to 2 decimal places parseFloat(val.toFixed(2))
+//  *     - discount: based on coupon (see below)
+//  *     - grandTotal: subtotal + deliveryFee + gst - discount (minimum 0, use Math.max)
+//  *     - Round grandTotal to 2 decimal places
+//  *
+
+
+  return {
+    items,
+    subtotal,
+    deliveryFee,
+    gst,
+    discount,
+    grandTotal,
+  };
 }

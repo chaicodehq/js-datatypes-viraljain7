@@ -43,4 +43,19 @@
  */
 export function generateLocalPass(passenger) {
   // Your code here
+
+//   *   - Agar passenger object nahi hai ya null hai, return "INVALID PASS"
+//  *   - Agar koi required field (name, from, to, classType) missing hai
+//  *     ya empty string hai, return "INVALID PASS"
+//  *   - Agar classType "first" ya "second" nahi hai, return "INVALID PASS"
+
+if(classType!=="first"||classType!=="second") return "INVALID PASS"
+
+  let { name, from, to, classType }=passenger
+
+
+  let upperCaseName=name.toUpperCase();
+
+
+
 }

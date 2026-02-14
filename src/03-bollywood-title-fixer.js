@@ -29,9 +29,44 @@
 //  *   fixBollywoodTitle("dil ka kya kare")
 //  *   // => "Dil ka Kya Kare"
 //  */
-// export function fixBollywoodTitle(title) {
-//   // Your code here
-//   if (typeof title !== "string" || title === "") return "";
+export function fixBollywoodTitle(title) {
+  // Your code here
+if(typeof title!=="string"||title.trim()==="") return ""
+
+//  * Rules:
+//  *   - Extra spaces hatao: leading, trailing, aur beech ke multiple spaces ko
+//  *     single space banao
+//  *   - Har word ka pehla letter uppercase, baaki lowercase (Title Case)
+//  *   - EXCEPTION: Chhote words jo Title Case mein lowercase rehte hain:
+//  *     "ka", "ki", "ke", "se", "aur", "ya", "the", "of", "in", "a", "an"
+//  *     LEKIN agar word title ka PEHLA word hai toh capitalize karo
+//  *   - Hint: Use trim(), split(), map(), join(), charAt(), toUpperCase(),
+//  *     toLowerCase(), slice()
+
+ const cleaned = title.trim();
+  if (cleaned === "") return "";
+
+  const exceptions = ["ka", "ki", "ke", "se", "aur", "ya", "the", "of", "in", "a", "an"];
+
+  return cleaned
+    .split(/\s+/) // removes multiple spaces automatically
+    .map((word, index) => {
+      const lower = word.toLowerCase();
+
+      // If exception word AND not first word → keep lowercase
+      if (exceptions.includes(lower) && index !== 0) {
+        return lower;
+      }
+
+      // Otherwise Title Case
+      return lower.charAt(0).toUpperCase() + lower.slice(1);
+    })
+    .join(" ");
+  }
+
+
+// function here(){
+//     if (typeof title !== "string" || title === "") return "";
 
 //   let myArray = title.trim().split(" ");
 
@@ -68,3 +103,4 @@
 //   }
 //   return res;
 // }
+
