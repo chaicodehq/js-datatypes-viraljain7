@@ -5,25 +5,25 @@
  * ka data milega aur tujhe ek formatted pass string generate karni hai.
  * Pass mein sab details honi chahiye ek specific format mein.
  *
- * Rules:
- *   - passenger object mein required fields: name, from, to, classType
- *   - classType must be "first" ya "second" (case-insensitive check)
- *   - Pass ID generate karo:
- *     classType ka first char uppercase + from ke pehle 3 letters uppercase
- *     + to ke pehle 3 letters uppercase
- *     Example: "first", "dadar", "andheri" => "F" + "DAD" + "AND" = "FDADAND"
- *   - Output format using template literal:
- *     Line 1: "MUMBAI LOCAL PASS"
- *     Line 2: "---"
- *     Line 3: "Name: <NAME IN UPPERCASE>"
- *     Line 4: "From: <From in Title Case>"
- *     Line 5: "To: <To in Title Case>"
- *     Line 6: "Class: <FIRST or SECOND>"
- *     Line 7: "Pass ID: <PASSID>"
- *   - Title Case = first letter uppercase, rest lowercase
- *   - Lines are separated by \n (newline)
- *   - Hint: Use template literals, slice(), toUpperCase(), toLowerCase(),
- *     charAt(), typeof
+//  * Rules:
+//  *   - passenger object mein required fields: name, from, to, classType
+//  *   - classType must be "first" ya "second" (case-insensitive check)
+//  *   - Pass ID generate karo:
+//  *     classType ka first char uppercase + from ke pehle 3 letters uppercase
+//  *     + to ke pehle 3 letters uppercase
+//  *     Example: "first", "dadar", "andheri" => "F" + "DAD" + "AND" = "FDADAND"
+//  *   - Output format using template literal:
+//  *     Line 1: "MUMBAI LOCAL PASS"
+//  *     Line 2: "---"
+//  *     Line 3: "Name: <NAME IN UPPERCASE>"
+//  *     Line 4: "From: <From in Title Case>"
+//  *     Line 5: "To: <To in Title Case>"
+//  *     Line 6: "Class: <FIRST or SECOND>"
+//  *     Line 7: "Pass ID: <PASSID>"
+//  *   - Title Case = first letter uppercase, rest lowercase
+//  *   - Lines are separated by \n (newline)
+//  *   - Hint: Use template literals, slice(), toUpperCase(), toLowerCase(),
+//  *     charAt(), typeof
  *
  * Validation:
  *   - Agar passenger object nahi hai ya null hai, return "INVALID PASS"
@@ -44,18 +44,55 @@
 export function generateLocalPass(passenger) {
   // Your code here
 
-//   *   - Agar passenger object nahi hai ya null hai, return "INVALID PASS"
-//  *   - Agar koi required field (name, from, to, classType) missing hai
-//  *     ya empty string hai, return "INVALID PASS"
-//  *   - Agar classType "first" ya "second" nahi hai, return "INVALID PASS"
+  //   *   - Agar passenger object nahi hai ya null hai, return "INVALID PASS"
+  //  *   - Agar koi required field (name, from, to, classType) missing hai
+  //  *     ya empty string hai, return "INVALID PASS"
+  //  *   - Agar classType "first" ya "second" nahi hai, return "INVALID PASS"
 
-if(classType!=="first"||classType!=="second") return "INVALID PASS"
+  if (typeof passenger !== "object" || passenger == null) return "INVALID PASS";
 
-  let { name, from, to, classType }=passenger
+  let { name, from, to, classType } = passenger;
 
+  if (
+    name === "" ||
+    from === "" ||
+    to === "" ||
+    classType === "" ||
+    name === undefined ||
+    from === undefined ||
+    to === undefined ||
+    classType === undefined
+  )
+    return "INVALID PASS";
 
-  let upperCaseName=name.toUpperCase();
+  let classTypeLowerCase = classType.toLowerCase();
 
+  if (classTypeLowerCase !== "first" && classTypeLowerCase !== "second")
+    return "INVALID PASS";
 
+  let passID =
+    classTypeLowerCase.slice(0, 1).toUpperCase() +
+    from.slice(0, 3).toUpperCase() +
+    to.slice(0, 3).toUpperCase();
+  return `MUMBAI LOCAL PASS\n---\nName: ${name.toUpperCase()}\nFrom: ${from.slice(0, 1).toUpperCase() + from.slice(1).toLowerCase()}\nTo: ${to.slice(0, 1).toUpperCase() + to.slice(1).toLowerCase()}\nClass: ${classTypeLowerCase.toUpperCase()}\nPass ID: ${passID}`;
 
+  //  * Rules:
+  //  *   - passenger object mein required fields: name, from, to, classType
+  //  *   - classType must be "first" ya "second" (case-insensitive check)
+  //  *   - Pass ID generate karo:
+  //  *     classType ka first char uppercase + from ke pehle 3 letters uppercase
+  //  *     + to ke pehle 3 letters uppercase
+  //  *     Example: "first", "dadar", "andheri" => "F" + "DAD" + "AND" = "FDADAND"
+  //  *   - Output format using template literal:
+  //  *     Line 1: "MUMBAI LOCAL PASS"
+  //  *     Line 2: "---"
+  //  *     Line 3: "Name: <NAME IN UPPERCASE>"
+  //  *     Line 4: "From: <From in Title Case>"
+  //  *     Line 5: "To: <To in Title Case>"
+  //  *     Line 6: "Class: <FIRST or SECOND>"
+  //  *     Line 7: "Pass ID: <PASSID>"
+  //  *   - Title Case = first letter uppercase, rest lowercase
+  //  *   - Lines are separated by \n (newline)
+  //  *   - Hint: Use template literals, slice(), toUpperCase(), toLowerCase(),
+  //  *     charAt(), typeof
 }
