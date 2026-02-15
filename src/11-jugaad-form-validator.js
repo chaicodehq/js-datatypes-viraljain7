@@ -62,8 +62,77 @@
  *   // => { isValid: false, errors: { name: "...", email: "...", ... } }
  */
 export function validateForm(formData) {
-  // Your code here
+  let errors = {};
 
+  let { name, email, phone, age, pincode, state, agreeTerms } = formData || {};
 
-  
+  const isValidEmail = (email) =>
+    typeof email === "string" &&
+    email.indexOf("@") !== -1 &&
+    email.indexOf("@") === email.lastIndexOf("@") && 
+    email.lastIndexOf(".") > email.indexOf("@");
+
+  // 1. Name (safe check)
+  if (
+    typeof name !== "string" ||
+    name.trim().length < 2 ||
+    name.trim().length > 50
+  ) {
+    errors.name = "Name must be 2-50 characters";
+  }
+
+  // 2. Email (FIX: call function)
+  if (!isValidEmail(email)) {
+    errors.email = "Invalid email format";
+  }
+
+  // 3. Age (JUGAAD parseInt)
+  const parsedAge = parseInt(age);
+  if (
+    isNaN(parsedAge) ||
+    parsedAge < 16 ||
+    parsedAge > 100 ||
+    String(parsedAge) !== String(age) ) {
+    errors.age = "Age must be an integer between 16 and 100";
+  }
+
+  // 4. Phone (your logic is good)
+  if (
+    typeof phone !== "string" ||
+    phone.length !== 10 ||
+    !["6", "7", "8", "9"].includes(phone[0]) ||
+    ![...phone].every((ch) => ch >= "0" && ch <= "9")
+  ) {
+    errors.phone = "Invalid Indian phone number";
+  }
+
+  // 5. Pincode (add digit check)
+  if (
+    typeof pincode !== "string" ||
+    pincode.length !== 6 ||
+    pincode.startsWith("0") ||
+    ![...pincode].every((ch) => ch >= "0" && ch <= "9")
+  ) {
+    errors.pincode = "Invalid Indian pincode";
+  }
+
+  // 6. State (use ?? as asked)
+  const stateValue = state ?? "";
+  if (stateValue.trim() === "") {
+    errors.state = "State is required";
+  }
+
+  // 7. Agree Terms
+  if (!Boolean(agreeTerms)) {
+    errors.agreeTerms = "Must agree to terms";
+  }
+
+  // FINAL (most important line)
+  const isValid = Object.keys(errors).length === 0;
+
+  return { isValid, errors };
 }
+
+
+
+ 
